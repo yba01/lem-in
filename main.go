@@ -41,4 +41,7 @@ func main() {
 	}
 	fmt.Printf("Start Room: %s\n", graph.StartNode)
 	fmt.Printf("End Room: %s\n", graph.EndNode)
+
+	paths := graph.FindPathBfs()
+	fmt.Println(paths)
 }

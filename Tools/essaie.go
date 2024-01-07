@@ -75,7 +75,7 @@ func LedgeBetween(tab []string) map[int][]string {
 	}
 	return links
 }
-//2-
+//2-Create graph
 type Graph struct {
 	Node 		map[string][]string
 	StartNode 	string
@@ -109,6 +109,7 @@ func (g *Graph) AddEdge(from, to string) {
 	g.Node[from] = append(g.Node[from], to)
 	g.Node[to] = append(g.Node[to], from)
 }
+
 func (g *Graph) GetStartNode(node string) {
 	if _, exist := g.Node[node]; exist {
 		g.StartNode = node
@@ -124,4 +125,39 @@ func (g *Graph) GetEndNode(node string) {
 		fmt.Println("invalid data format, unknown room")
 		os.Exit(0)
 	}
+}
+// 3-Find path using Beardth First Search Algorithm
+func (g *Graph) FindPathBfs() [][]string {
+	queue := [][]string{{g.StartNode}}
+	Allpath := [][]string(nil)
+	parents := []string(nil)
+
+	for len(queue)>0 {
+		path := queue[0]
+		queue = queue[1:]
+		node := path[len(path)-1]
+		fmt.Println("this is path",path)
+		fmt.Println("this is parents list",parents)
+
+		if node == g.EndNode {
+			Allpath = append(Allpath, path)
+		}
+		
+		for _, 	adjacent := range g.Node[node] {
+			if (!Containt(path, adjacent)){
+				Newpath := append([]string(nil),path...)
+				Newpath = append(Newpath, adjacent)
+				queue = append(queue, Newpath)
+			}
+		}
+	}	
+	return Allpath	
+} 
+func Containt(path []string, node string) bool {
+	for _, element := range path {
+		if element == node {
+			return true
+		}
+	}
+	return false
 }
