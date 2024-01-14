@@ -2,7 +2,7 @@ package Tools
 
 import (
 	"fmt"
-	"io/ioutil"
+	"bufio"
 	"os"
 	"strconv"
 	"strings"
@@ -10,13 +10,17 @@ import (
 // 1-
 // Get data from file and put it in string's slice
 func GetData(path string) []string {
-	content, err := ioutil.ReadFile(path)
+	var tab []string
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println("Error Read file :", err)
 		os.Exit(0)
 	}
-	strcontent := strings.Split(string(content), "\n")
-	return strcontent
+	cont := bufio.NewScanner(file)
+	for cont.Scan() {
+		tab = append(tab, cont.Text())
+	}
+	return tab
 }
 func AntNumber(tab []string) int {
 	if len(tab) > 1 {
@@ -130,14 +134,14 @@ func (g *Graph) GetEndNode(node string) {
 func (g *Graph) FindPathBfs() [][]string {
 	queue := [][]string{{g.StartNode}}
 	Allpath := [][]string(nil)
-	parents := []string(nil)
+	//parents := []string(nil)
 
 	for len(queue)>0 {
 		path := queue[0]
 		queue = queue[1:]
 		node := path[len(path)-1]
-		fmt.Println("this is path",path)
-		fmt.Println("this is parents list",parents)
+		//fmt.Println("this is path",path)
+		//fmt.Println("this is parents list",parents)
 
 		if node == g.EndNode {
 			Allpath = append(Allpath, path)
@@ -160,4 +164,44 @@ func Containt(path []string, node string) bool {
 		}
 	}
 	return false
+}
+// Allows to know if two paths have same rooms...
+func SameRoom(one, second []string, start, end string) bool {
+	for _, pathone := range one {
+		if pathone == start {
+			continue
+		}else if pathone == end {
+			return false
+		}else {
+			for _, pathsec := range second {
+				if pathone == pathsec {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+// allows to know if a path 
+func AvoidJams(pathget [][]string, path []string, start, end string) bool {
+	for _, chemin := range pathget {
+		if SameRoom(chemin, path, start, end) {
+			return true
+		}
+	}
+	return false
+}
+// Our path
+func Maxlenght(tab map[int][][]string) [][]string {
+	if len(tab) == 1 {
+		return tab[0]
+	}
+	max := len(tab[0])
+	index := 0
+	for i,value := range tab {
+		if len(value) > max {
+			index = i
+		}
+	}
+	return tab[index]
 }
