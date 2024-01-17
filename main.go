@@ -58,5 +58,9 @@ func main() {
 	}
 		//fmt.Println(tab)
 		solution := Tools.Maxlenght(tab)
+		
 		fmt.Println(solution)
+		antbypath := Tools.PutAntInPath(solution,antnumber)
+		fmt.Println(antbypath)
+
 }
