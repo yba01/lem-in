@@ -203,5 +203,49 @@ func Maxlenght(tab map[int][][]string) [][]string {
 			index = i
 		}
 	}
-	return tab[index]
+	solution := tab[index]
+	for i:=0; i<len(solution); i++ {
+		for j:=0; j<len(solution)-1;j++ {
+			if len(solution[j+1])<len(solution[j]) {
+				solution[j+1], solution[j] = solution[j], solution[j+1]
+			}
+		}
+	}
+	return solution
+}
+
+func PutAntInPath(tab [][]string, nant int) map[int][]int {
+	rslt := make(map[int][]int)
+	index := 0
+	for i:= 1; i <= nant; i++ {
+		if i==1 {
+			rslt[index] = append(rslt[index], i)
+		}else{
+			value := len(tab[index])-2 + len(rslt[index])
+			if index != len(tab)-1 {
+				if len(rslt)-1 <  index + 1 {
+					if value > len(tab[index + 1])-2 {
+						rslt[index+1] = append(rslt[index+1], i)
+						index += 1
+					}else {
+						index = 0
+						rslt[index] = append(rslt[index], i)
+					}
+				}else {
+					otherval := len(tab[index+1]) - 2 + len(rslt[index+1])
+					if value > otherval {
+						rslt[index+1] = append(rslt[index+1], i)
+						index += 1
+					}else {
+						index = 0
+						rslt[index] = append(rslt[index], i)
+					}
+				}
+			}else {
+				index = 0
+				rslt[index] = append(rslt[index], i)
+			}
+		}
+	}		
+	return rslt
 }
