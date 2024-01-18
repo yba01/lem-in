@@ -43,7 +43,7 @@ func main() {
 //	fmt.Printf("End Room: %s\n", graph.EndNode)
 
 	paths := graph.FindPathBfs()
-	//fmt.Println(paths)
+	fmt.Println(paths)
 	tab := make(map[int][][]string)
 	i:=0
 	for _, chem := range paths {
@@ -56,7 +56,7 @@ func main() {
 		tab[i] = chemins
 		i += 1
 	}
-		//fmt.Println(tab)
+		fmt.Println(tab)
 		solution := Tools.Maxlenght(tab)
 		
 		fmt.Println(solution)
