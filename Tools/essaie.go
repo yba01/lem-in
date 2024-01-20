@@ -79,8 +79,7 @@ func LedgeBetween(tab []string) map[int][]string {
 	}
 	return links
 }
-//2-
-//Create graph
+//2-Create graph
 type Graph struct {
 	Node 		map[string][]string
 	StartNode 	string
@@ -131,8 +130,7 @@ func (g *Graph) GetEndNode(node string) {
 		os.Exit(0)
 	}
 }
-// 3-
-//Find path using Beardth First Search Algorithm
+// 3-Find path using Beardth First Search Algorithm
 func (g *Graph) FindPathBfs() [][]string {
 	queue := [][]string{{g.StartNode}}
 	Allpath := [][]string(nil)
@@ -150,15 +148,12 @@ func (g *Graph) FindPathBfs() [][]string {
 		}
 		
 		for _, 	adjacent := range g.Node[node] {
-			if (!Containt(path, adjacent)) {
+			if (!Containt(path, adjacent)){
 				Newpath := append([]string(nil),path...)
 				Newpath = append(Newpath, adjacent)
 				queue = append(queue, Newpath)
 			}
 		}
-		// if node != g.StartNode {
-		// 	parents = append(parents, node)
-		// }
 	}	
 	return Allpath	
 } 
@@ -201,12 +196,10 @@ func Maxlenght(tab map[int][][]string) [][]string {
 	if len(tab) == 1 {
 		return tab[0]
 	}
-	tab = RepeatedPath(tab)
 	max := len(tab[0])
 	index := 0
 	for i,value := range tab {
 		if len(value) > max {
-			max = len(value)
 			index = i
 		}
 	}
@@ -220,32 +213,6 @@ func Maxlenght(tab map[int][][]string) [][]string {
 	}
 	return solution
 }
-//Avoid repeated path in our result ....
-func RepeatedPath(tab map[int][][]string) map[int][][]string {
-	for index, path := range tab {
-		for i, str := range path {
-			for j, another := range path {
-				if (i != j) && (Compare(str, another)) {
-					tab[index] = nil
-				}
-			}
-		}
-	}
-	return tab
-}
-// Compare two slice of string and return true if there are same or not if there aren't...
-func Compare(str, another []string) bool {
-	if len(str) != len(another) {
-		return false
-	}
-	for i:=0; i<len(str);i++ {
-		if str[i] != another[i] {
-			return false
-		}
-	}
-	return true
-}
-
 func PutAntInPath(tab [][]string, nant int) map[int][]int {
 	rslt := make(map[int][]int)
 	index := 0
@@ -280,11 +247,4 @@ func PutAntInPath(tab [][]string, nant int) map[int][]int {
 		}
 	}		
 	return rslt
-}
-// 4-
-// Write result
-func WriteResult(path [][]string, ant map[int][][]string) {
-	for {
-		
-	}
 }
